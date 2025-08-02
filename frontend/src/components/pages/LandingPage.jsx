@@ -1,18 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const LandingPage = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
     const featuresRef = useRef(null);
     const statsRef = useRef(null);
     const ctaRef = useRef(null);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     useEffect(() => {
         // Scroll to top when page loads/refreshes
