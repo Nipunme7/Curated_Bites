@@ -182,12 +182,12 @@ const LandingPage = () => {
                         No ads. No chains. Just real food.
                     </p>
                     <h2 className="text-4xl font-bold text-gray-800 mt-16">
-                        <span className="inline-block animate-fade-in-up animation-delay-800">Curating</span>{' '}
-                        <span className="inline-block animate-fade-in-up animation-delay-1000">one</span>{' '}
-                        <span className="inline-block animate-fade-in-up animation-delay-1200">city</span>{' '}
-                        <span className="inline-block animate-fade-in-up animation-delay-1400">at</span>{' '}
-                        <span className="inline-block animate-fade-in-up animation-delay-1600">a</span>{' '}
-                        <span className="inline-block animate-fade-in-up animation-delay-1800">time.</span>
+                        <span className="inline-block animate-fade-in-up animation-delay-200">Curating</span>{' '}
+                        <span className="inline-block animate-fade-in-up animation-delay-400">one</span>{' '}
+                        <span className="inline-block animate-fade-in-up animation-delay-600">city</span>{' '}
+                        <span className="inline-block animate-fade-in-up animation-delay-800">at</span>{' '}
+                        <span className="inline-block animate-fade-in-up animation-delay-1000">a</span>{' '}
+                        <span className="inline-block animate-fade-in-up animation-delay-1200">time.</span>
                     </h2>
                     <div className="mt-16 text-gray-500 text-sm">
                         Discover quality
