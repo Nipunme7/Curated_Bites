@@ -7,25 +7,30 @@ const LandingPage = () => {
 
     useEffect(() => {
         // Scroll to top when page loads/refreshes
-        window.scrollTo(0, 0);
+        if (typeof window !== 'undefined') {
+            window.scrollTo(0, 0);
+        }
     }, []);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            },
-            { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-        );
+        // Only run IntersectionObserver in browser environment
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+            );
 
-        const elements = document.querySelectorAll('.scroll-animate');
-        elements.forEach((el) => observer.observe(el));
+            const elements = document.querySelectorAll('.scroll-animate');
+            elements.forEach((el) => observer.observe(el));
 
-        return () => observer.disconnect();
+            return () => observer.disconnect();
+        }
     }, []);
 
     return (
