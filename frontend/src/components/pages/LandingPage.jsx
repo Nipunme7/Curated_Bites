@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const LandingPage = () => {
     const featuresRef = useRef(null);
     const statsRef = useRef(null);
     const ctaRef = useRef(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         // Scroll to top when page loads/refreshes
@@ -37,6 +38,13 @@ const LandingPage = () => {
         <div className="min-h-screen bg-white">
             {/* Navigation */}
             <nav className="bg-white shadow-sm sticky top-0 z-50">
+                {/* Mobile menu backdrop */}
+                {isMobileMenuOpen && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    />
+                )}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
@@ -79,13 +87,13 @@ const LandingPage = () => {
                                 type="button"
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                                 aria-controls="mobile-menu"
-                                aria-expanded="false"
+                                aria-expanded={isMobileMenuOpen}
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             >
-                                <span className="sr-only">Open main menu</span>
+                                <span className="sr-only">{isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}</span>
                                 {/* Icon when menu is closed. */}
-                                {/* Heroicon name: outline/bars-3 */}
                                 <svg
-                                    className="block h-6 w-6"
+                                    className={`${isMobileMenuOpen ? 'hidden' : 'block'} h-6 w-6`}
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -100,9 +108,8 @@ const LandingPage = () => {
                                     />
                                 </svg>
                                 {/* Icon when menu is open. */}
-                                {/* Heroicon name: outline/x */}
                                 <svg
-                                    className="hidden h-6 w-6"
+                                    className={`${isMobileMenuOpen ? 'block' : 'hidden'} h-6 w-6`}
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -122,38 +129,62 @@ const LandingPage = () => {
                 </div>
 
                 {/* Mobile menu, show/hide based on menu state. */}
-                <div className="md:hidden" id="mobile-menu">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <a
-                            href="#features"
-                            className="text-gray-700 hover:bg-orange-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                        >
-                            Features
-                        </a>
-                        <a
-                            href="#reviews"
-                            className="text-gray-700 hover:bg-orange-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                        >
-                            Reviews
-                        </a>
-                        <a
-                            href="#about"
-                            className="text-gray-700 hover:bg-orange-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                        >
-                            About
-                        </a>
-                        <a
-                            href="#contact"
-                            className="text-gray-700 hover:bg-orange-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                        >
-                            Contact
-                        </a>
-                        <button className="text-gray-700 hover:bg-orange-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                            Sign In
-                        </button>
-                        <button className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md block w-full text-center shadow-md">
-                            Get Started
-                        </button>
+                <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
+                    <div className="absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-200 px-4 py-6 space-y-3 z-50 animate-slide-down">
+                        <div className="flex justify-end mb-4">
+                            <button
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-8 h-8 text-gray-500 hover:text-orange-600 flex items-center justify-center transition-colors duration-300"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div className="space-y-2">
+                            <a
+                                href="#features"
+                                className="text-gray-700 hover:text-orange-600 block py-3 px-4 text-base font-medium transition-colors duration-300"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Features
+                            </a>
+
+                            <a
+                                href="#reviews"
+                                className="text-gray-700 hover:text-orange-600 block py-3 px-4 text-base font-medium transition-colors duration-300"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Reviews
+                            </a>
+
+                            <a
+                                href="#about"
+                                className="text-gray-700 hover:text-orange-600 block py-3 px-4 text-base font-medium transition-colors duration-300"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                About
+                            </a>
+
+                            <a
+                                href="#contact"
+                                className="text-gray-700 hover:text-orange-600 block py-3 px-4 text-base font-medium transition-colors duration-300"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Contact
+                            </a>
+                        </div>
+
+                        <div className="pt-4 border-t border-gray-100 space-y-3">
+                            <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-lg block w-full text-center transition-colors duration-300">
+                                Sign In
+                            </button>
+
+                            <button className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg block w-full text-center transition-colors duration-300">
+                                Get Started
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -224,40 +255,40 @@ const LandingPage = () => {
 
                     <div className="grid md:grid-cols-3 gap-12">
                         {/* Feature 1 */}
-                        <div className="bg-white p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
-                            <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-8">
-                                <svg className="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 sm:mb-8">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">Curated Excellence</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Curated Excellence</h3>
+                            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                                 Every restaurant is personally vetted by our food experts
                             </p>
                         </div>
 
                         {/* Feature 2 */}
-                        <div className="bg-white p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
-                            <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-8">
-                                <svg className="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-6 sm:mb-8">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                                 </svg>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">Support Local</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Support Local</h3>
+                            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                                 Discover hidden gems and support your community
                             </p>
                         </div>
 
                         {/* Feature 3 */}
-                        <div className="bg-white p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
-                            <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-8">
-                                <svg className="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 scroll-animate">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-6 sm:mb-8">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                                 </svg>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">Real-Time Tracking</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Real-Time Tracking</h3>
+                            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                                 Know exactly when your perfectly prepared meal arrives
                             </p>
                         </div>
@@ -271,20 +302,20 @@ const LandingPage = () => {
                     <h2 className="text-5xl font-bold text-gray-900 mb-16 scroll-animate">
                         Trusted by food lovers across the globe
                     </h2>
-                    <div className="flex justify-center items-center space-x-20">
+                    <div className="flex flex-col sm:flex-row justify-center items-center space-y-8 sm:space-y-0 sm:space-x-20">
                         <div className="text-center scroll-animate">
-                            <div className="text-5xl font-bold text-gray-900 mb-2">5,000+</div>
-                            <div className="text-gray-600 text-lg">Happy Customers</div>
+                            <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">5,000+</div>
+                            <div className="text-gray-600 text-base sm:text-lg">Happy Customers</div>
                         </div>
-                        <div className="w-px h-16 bg-gray-300"></div>
+                        <div className="hidden sm:block w-px h-16 bg-gray-300"></div>
                         <div className="text-center scroll-animate">
-                            <div className="text-5xl font-bold text-gray-900 mb-2">200+</div>
-                            <div className="text-gray-600 text-lg">Partner Restaurants</div>
+                            <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">200+</div>
+                            <div className="text-gray-600 text-base sm:text-lg">Partner Restaurants</div>
                         </div>
-                        <div className="w-px h-16 bg-gray-300"></div>
+                        <div className="hidden sm:block w-px h-16 bg-gray-300"></div>
                         <div className="text-center scroll-animate">
-                            <div className="text-5xl font-bold text-gray-900 mb-2">50,000+</div>
-                            <div className="text-gray-600 text-lg">Orders Delivered</div>
+                            <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">50,000+</div>
+                            <div className="text-gray-600 text-base sm:text-lg">Orders Delivered</div>
                         </div>
                     </div>
                 </div>
@@ -301,7 +332,7 @@ const LandingPage = () => {
                         <p className="text-xl text-orange-100 mb-12 max-w-3xl mx-auto leading-relaxed">
                             Join thousands of food lovers who've discovered their new favorite restaurants through CuratedEats.
                         </p>
-                        <button className="bg-white text-orange-500 px-12 py-5 rounded-xl text-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 mb-6">
+                        <button className="bg-white text-orange-500 px-6 sm:px-12 py-4 sm:py-5 rounded-xl text-lg sm:text-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 mb-6">
                             Start Exploring in San Francisco
                         </button>
                         <p className="text-orange-100 text-base">
@@ -311,16 +342,16 @@ const LandingPage = () => {
                 </div>
 
                 {/* Footer */}
-                <footer className="bg-gray-900 py-16">
+                <footer className="bg-gray-900 py-12 sm:py-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center">
+                        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
                             <div className="flex items-center space-x-3">
                                 <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
                                     <span className="text-white font-bold text-sm">CE</span>
                                 </div>
                                 <span className="text-white font-bold text-xl">CuratedEats</span>
                             </div>
-                            <p className="text-gray-400 text-base">
+                            <p className="text-gray-400 text-sm sm:text-base text-center sm:text-left">
                                 © 2025 CuratedEats. Bringing you the city's finest food, one meal at a time.
                             </p>
                         </div>
@@ -330,6 +361,16 @@ const LandingPage = () => {
 
             {/* Custom CSS for animations */}
             <style jsx>{`
+        @keyframes slide-down {
+          0% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
         @keyframes fade-in-up {
           0% {
             opacity: 0;
@@ -383,6 +424,9 @@ const LandingPage = () => {
         .scroll-animate.animate-in {
           opacity: 1;
           transform: translateY(0);
+        }
+        .animate-slide-down {
+          animation: slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         .animation-delay-200 {
           animation-delay: 0.3s;
