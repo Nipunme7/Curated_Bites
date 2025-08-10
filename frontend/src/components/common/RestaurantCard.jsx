@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RestaurantCard = ({ restaurant }) => {
     const [isFavorite, setIsFavorite] = useState(restaurant.isFavorite || false);
+    const navigate = useNavigate();
 
     const handleFavoriteToggle = (e) => {
         e.stopPropagation();
         setIsFavorite(!isFavorite);
     };
 
+    const handleCardClick = () => {
+        // Convert restaurant name to URL-friendly format
+        const urlName = restaurant.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        navigate(`/store/${urlName}`);
+    };
+
     return (
-        <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden border border-gray-100">
+        <div
+            className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden border border-gray-100"
+            onClick={handleCardClick}
+        >
             {/* Image Container */}
             <div className="relative">
                 <img
