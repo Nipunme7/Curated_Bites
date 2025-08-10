@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Navbar = ({ showMap = false, onToggleMap = () => { } }) => {
-    const [selectedCategory, setSelectedCategory] = useState('All');
-
+const Navbar = ({
+    showMap,
+    onToggleMap,
+    selectedCategory,
+    onChangeCategory,
+    dealsOnly,
+    onToggleDeals,
+    selectedPrice,
+    onPriceChange
+}) => {
     const categories = [
         { name: 'All', icon: null },
         { name: "People's Pick", icon: '👥' },
@@ -39,19 +46,36 @@ const Navbar = ({ showMap = false, onToggleMap = () => { } }) => {
                             <span>{showMap ? 'Hide Map' : 'Show Map'}</span>
                         </button>
 
-                        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-                            </svg>
-                            <span>Deals</span>
+                        <button
+                            onClick={onToggleDeals}
+                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${dealsOnly
+                                ? 'bg-orange-500 text-white shadow-md'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`}
+                            aria-pressed={dealsOnly}
+                        >
+                            Deals
                         </button>
 
-                        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
-                            <span>$ Price</span>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
+                        {/* Price Filter Dropdown */}
+                        <div className="relative">
+                            <select
+                                value={selectedPrice || ''}
+                                onChange={(e) => onPriceChange(e.target.value || null)}
+                                className="px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 border-0 focus:ring-2 focus:ring-orange-500 focus:outline-none appearance-none cursor-pointer pr-8"
+                            >
+                                <option value="">All Prices</option>
+                                <option value="$">$</option>
+                                <option value="$$">$$</option>
+                                <option value="$$$">$$$</option>
+                                <option value="$$$$">$$$$</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -60,7 +84,7 @@ const Navbar = ({ showMap = false, onToggleMap = () => { } }) => {
                     {categories.map((category) => (
                         <button
                             key={category.name}
-                            onClick={() => setSelectedCategory(category.name)}
+                            onClick={() => onChangeCategory(category.name)}
                             className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${selectedCategory === category.name
                                 ? 'bg-black text-white'
                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
