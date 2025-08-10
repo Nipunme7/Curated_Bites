@@ -9,8 +9,9 @@ const MainPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [dealsOnly, setDealsOnly] = useState(false);
     const [selectedPrice, setSelectedPrice] = useState(null);
+
     // Sample restaurant data matching the design
-    const restaurants = [
+    const restaurants = useMemo(() => [
         {
             id: 1,
             name: "Sizzle & Spice",
@@ -305,7 +306,7 @@ const MainPage = () => {
             isFavorite: false,
             tags: ["People's Pick"]
         }
-    ];
+    ], []);
 
     const isDeal = (r) => {
         const promo = (r.promotion || '').toLowerCase();
